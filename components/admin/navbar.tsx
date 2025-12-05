@@ -1,9 +1,10 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { Settings, LogOut, Shield } from "lucide-react"
+import { Settings, LogOut } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import Image from "next/image"
 
 export default function AdminNavbar() {
   const router = useRouter()
@@ -20,11 +21,16 @@ export default function AdminNavbar() {
   return (
     <nav className="bg-card border-b border-border sticky top-0 z-50">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <div className="w-10 h-10 bg-destructive rounded-lg flex items-center justify-center text-destructive-foreground font-bold">
-            <Shield className="w-6 h-6" />
-          </div>
-          <h1 className="text-xl font-bold text-foreground">CampusHub Admin</h1>
+        <div className="flex items-center gap-3">
+          <Image
+            src="/campushub-logo.png"
+            alt="CampusHub Logo"
+            width={120}
+            height={40}
+            className="h-8 w-auto"
+            priority
+          />
+          <span className="text-xs text-muted-foreground">Admin</span>
         </div>
 
         <div className="flex items-center gap-4">

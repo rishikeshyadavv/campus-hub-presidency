@@ -231,6 +231,7 @@ export default function Home() {
                   size="lg"
                   variant="outline"
                   className="hover:bg-secondary transition-all hover:scale-105 bg-transparent"
+                  onClick={() => router.push("/about")}
                 >
                   Learn More
                 </Button>

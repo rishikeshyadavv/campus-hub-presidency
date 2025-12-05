@@ -2,11 +2,16 @@
 
 import Link from "next/link"
 import { Github, Twitter, Instagram } from "lucide-react"
+import Image from "next/image"
 
 export default function Footer() {
   return (
     <footer className="bg-secondary/50 border-t py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="mb-8 pb-8 border-b flex items-center gap-3">
+          <Image src="/campushub-logo.png" alt="CampusHub Logo" width={140} height={40} className="h-8 w-auto" />
+        </div>
+
         <div className="grid md:grid-cols-4 gap-8 mb-8">
           <div>
             <h4 className="font-semibold mb-4">Product</h4>
