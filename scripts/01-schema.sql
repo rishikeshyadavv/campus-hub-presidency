@@ -1,0 +1,100 @@
+-- Users table
+CREATE TABLE IF NOT EXISTS users (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  email VARCHAR(255) UNIQUE NOT NULL,
+  student_id VARCHAR(50) UNIQUE NOT NULL,
+  password_hash VARCHAR(255) NOT NULL,
+  bio TEXT,
+  reputation_score DECIMAL(3,1) DEFAULT 5.0,
+  verified BOOLEAN DEFAULT FALSE,
+  status VARCHAR(50) DEFAULT 'active',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Listings table
+CREATE TABLE IF NOT EXISTS listings (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER NOT NULL REFERENCES users(id),
+  title VARCHAR(255) NOT NULL,
+  description TEXT,
+  category VARCHAR(100) NOT NULL,
+  condition VARCHAR(50) NOT NULL,
+  type VARCHAR(50) NOT NULL,
+  location VARCHAR(255),
+  image_url VARCHAR(255),
+  status VARCHAR(50) DEFAULT 'active',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Trades table
+CREATE TABLE IF NOT EXISTS trades (
+  id SERIAL PRIMARY KEY,
+  listing_id INTEGER NOT NULL REFERENCES listings(id),
+  buyer_id INTEGER NOT NULL REFERENCES users(id),
+  seller_id INTEGER NOT NULL REFERENCES users(id),
+  status VARCHAR(50) DEFAULT 'pending',
+  completed_at TIMESTAMP,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Reviews table
+CREATE TABLE IF NOT EXISTS reviews (
+  id SERIAL PRIMARY KEY,
+  trade_id INTEGER NOT NULL REFERENCES trades(id),
+  reviewer_id INTEGER NOT NULL REFERENCES users(id),
+  rating DECIMAL(2,1) NOT NULL,
+  comment TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Events table
+CREATE TABLE IF NOT EXISTS events (
+  id SERIAL PRIMARY KEY,
+  club_id INTEGER NOT NULL REFERENCES users(id),
+  title VARCHAR(255) NOT NULL,
+  description TEXT,
+  date DATE NOT NULL,
+  time TIME NOT NULL,
+  venue VARCHAR(255) NOT NULL,
+  budget DECIMAL(10,2) NOT NULL,
+  status VARCHAR(50) DEFAULT 'pending',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Messages table
+CREATE TABLE IF NOT EXISTS messages (
+  id SERIAL PRIMARY KEY,
+  sender_id INTEGER NOT NULL REFERENCES users(id),
+  recipient_id INTEGER NOT NULL REFERENCES users(id),
+  content TEXT NOT NULL,
+  read BOOLEAN DEFAULT FALSE,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Disputes table
+CREATE TABLE IF NOT EXISTS disputes (
+  id SERIAL PRIMARY KEY,
+  trade_id INTEGER NOT NULL REFERENCES trades(id),
+  initiator_id INTEGER NOT NULL REFERENCES users(id),
+  title VARCHAR(255) NOT NULL,
+  description TEXT,
+  status VARCHAR(50) DEFAULT 'open',
+  resolution TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Notifications table
+CREATE TABLE IF NOT EXISTS notifications (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER NOT NULL REFERENCES users(id),
+  type VARCHAR(100) NOT NULL,
+  title VARCHAR(255) NOT NULL,
+  message TEXT,
+  read BOOLEAN DEFAULT FALSE,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
